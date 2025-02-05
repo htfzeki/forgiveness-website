@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgiveness</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: lightpink;
+        font-family: Arial, sans-serif;
+        color: white;
+        overflow: hidden;
+      }
+
+      .container {
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        position: relative;
+      }
+
+      #yesButton {
+        background-color: green;
+        color: white;
+      }
+
+      #noButton {
+        background-color: red;
+        color: white;
+        width: 80px;
+        height: 40px;
+      }
+
+      img {
+        margin-bottom: 20px;
+        max-width: 200px;
+        height: auto;
+      }
+
+      .heart {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-image: url("heart.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        animation: fly 5s ease-out forwards, fadeOut 5s ease-out forwards;
+      }
+
+      @keyframes fly {
+        0% {
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          transform: translateY(-600px) translateX(200px) scale(1.5);
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeOut {
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img id="image" src="image1.jpg" alt="Forgiveness Image" />
+      <h1 id="forgivenessMessage">Do you forgive me?</h1>
+      <div class="buttons">
+        <button id="yesButton">Yes</button>
+        <button id="noButton">No</button>
+      </div>
+    </div>
+
+    <script>
+      const yesButton = document.getElementById("yesButton");
+      const noButton = document.getElementById("noButton");
+      const image = document.getElementById("image");
+      const forgivenessMessage = document.getElementById("forgivenessMessage");
+      let clickCount = 0;
+
+      const images = [
+        "image1.jpg",
+        "image2.jpg",
+        "image3.jpg",
+        "image4.jpg",
+        "image5.jpg",
+        "image6.jpg",
+      ];
+
+      const messages = [
+        "Do you forgive me?",
+        "tum hi ho, ab tum hi ho, zindagiii ab tum hi ho o o o",
+        "oh jane man, meri jane man, maaf kardooooo",
+        "Wapis esa kabhi nai hoga pls maaf karde.",
+        "pleaseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "karde yar maaf pls",
+      ];
+
+      noButton.addEventListener("click", () => {
+        const currentSize = parseFloat(
+          window.getComputedStyle(yesButton).fontSize
+        );
+        yesButton.style.fontSize = `${currentSize * 1.2}px`;
+        clickCount++;
+
+        const imageIndex = clickCount % images.length;
+        image.src = images[imageIndex];
+
+        const messageIndex = clickCount % messages.length;
+        forgivenessMessage.textContent = messages[messageIndex];
+
+        if (clickCount >= 5) {
+          moveNoButton();
+        }
+
+        if (clickCount >= 5) {
+          noButton.addEventListener("mouseover", moveNoButton);
+        }
+      });
+
+      yesButton.addEventListener("click", () => {
+        forgivenessMessage.textContent = "Hoorayyyyyyyyyy!!!!!!!"; // Change text after clicking Yes
+        createHearts();
+      });
+
+      function moveNoButton() {
+        const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+        noButton.style.position = "absolute";
+        noButton.style.left = `${x}px`;
+        noButton.style.top = `${y}px`;
+      }
+
+      function createHearts() {
+        const heartCount = Math.floor(Math.random() * 50) + 30;
+        for (let i = 0; i < heartCount; i++) {
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+
+          heart.style.left = `${Math.random() * window.innerWidth}px`;
+          heart.style.bottom = `-30px`;
+
+          heart.style.animationDuration = `${Math.random() * 3 + 4}s`;
+
+          document.body.appendChild(heart);
+
+          setTimeout(() => {
+            heart.remove();
+          }, 7000);
+        }
+      }
+    </script>
+  </body>
+</html>
